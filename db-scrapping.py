@@ -6,6 +6,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+path_dir+'/database.db'
 db = SQLAlchemy(app)
 
+# import module interne
+from ScrappingGithub.scrapping import AutoScrapping
+
 
 class Githuber(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
@@ -18,9 +21,15 @@ class Githuber(db.Model):
         return '<User %r>' % self.useracc
 
 if __name__ == "__main__":
+    # url scrapped
+    url = "https://github.com/supig"
+    # instancie
+    cp = AutoScrapping(url)
+    useracc, username, bio, location = cp.infoPerso()
+    # create database
     db.create_all()
-    admin = Githuber(username='admin', email='admin@example.com')
-    guest = Githuber(username='guest', email='guest@example.com')
-    db.session.add(admin)
-    db.session.add(guest)
+    someone = Githuber(useracc=useracc, username=username, bio=bio, location=location)
+    # guest = Githuber(username='guest', email='guest@example.com')
+    db.session.add(someone)
+    # db.session.add(guest)
     db.session.commit()

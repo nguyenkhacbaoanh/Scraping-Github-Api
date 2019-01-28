@@ -29,7 +29,7 @@ class AutoScrapping:
 
    def infoPerso(self):
       # information hors de boucle
-      soup = BeautifulSoup(self.session.get(url_scrapped).content, 'html.parser')
+      soup = BeautifulSoup(self.session.get(self.url_scrapped).content, 'html.parser')
       # try:
       #    img = soup.find("img", {"class":"avatar width-full avatar-before-user-status"}).attrs["src"]
       # except:
@@ -52,7 +52,7 @@ class AutoScrapping:
       # print(bio)
       # print(location)
 
-      return [full_name, acc_name, bio, location]
+      return acc_name, full_name, bio, location
 
    def repoScrapping(self):
       # --------------------------------------
@@ -61,7 +61,7 @@ class AutoScrapping:
          "tab": self.key_search[0]
       }  
       #it assumed that by now you are logged so we can now use .get and fetch any page of your choice
-      soup = BeautifulSoup(self.session.get(url_scrapped, params=params).content, 'html.parser')
+      soup = BeautifulSoup(self.session.get(self.url_scrapped, params=params).content, 'html.parser')
       repo = soup.find("ul", {"data-filterable-for":"your-repos-filter"})
       list_repo = repo.findAll("li",{"itemprop":"owns"})
       # cherche les infos pour chaque repo:
@@ -104,7 +104,7 @@ class AutoScrapping:
          "tab": self.key_search[1]
       }  
       #it assumed that by now you are logged so we can now use .get and fetch any page of your choice
-      star = BeautifulSoup(self.session.get(url_scrapped, params=params).content, 'html.parser')
+      star = BeautifulSoup(self.session.get(self.url_scrapped, params=params).content, 'html.parser')
       list_stars = star.findAll("div",{"class":"col-12 d-block width-full py-4 border-bottom"})
       # cherche les infos pour chaque repo:
       repository_star = list()
@@ -147,7 +147,7 @@ class AutoScrapping:
          "tab": self.key_search[2]
       }  
       #it assumed that by now you are logged so we can now use .get and fetch any page of your choice
-      follower = BeautifulSoup(self.session.get(url_scrapped, params=params).content, 'html.parser')
+      follower = BeautifulSoup(self.session.get(self.url_scrapped, params=params).content, 'html.parser')
       list_followers = follower.findAll("div",{"class":"d-table table-fixed col-12 width-full py-4 border-bottom border-gray-light"})
       # cherche les infos pour chaque repo:
       followers_name = list()
@@ -221,7 +221,7 @@ class AutoScrapping:
          "tab": self.key_search[3]
       }  
       #it assumed that by now you are logged so we can now use .get and fetch any page of your choice
-      following = BeautifulSoup(self.session.get(url_scrapped, params=params).content, 'html.parser')
+      following = BeautifulSoup(self.session.get(self.url_scrapped, params=params).content, 'html.parser')
       list_following = following.findAll("div",{"class":"d-table table-fixed col-12 width-full py-4 border-bottom border-gray-light"})
       # cherche les infos pour chaque repo:
       following_name = list()
