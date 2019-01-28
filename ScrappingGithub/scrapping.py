@@ -95,7 +95,7 @@ class AutoScrapping:
                      used_lang.append("Unknown")
       # print(repository)
       # print(used_lang)
-      return [repository, used_lang]
+      return repository, used_lang
 
    def starScrapping(self):
       # --------------------------------------
