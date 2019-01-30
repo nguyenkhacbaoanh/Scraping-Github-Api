@@ -14,8 +14,8 @@ from ScrappingGithub.scrapping import AutoScrapping
 
 class Githuber(db.Model):
     # __tablename__ = "Users"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    useracc = db.Column(db.String(80), unique=False, nullable=False)
+    # id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    useracc = db.Column(db.String(80), unique=False, nullable=False, primary_key=True)
     username = db.Column(db.String(80), unique=False, nullable=True)
     bio = db.Column(db.String(120), unique=False, nullable=True)
     location = db.Column(db.String(80), unique=False, nullable=True)
@@ -25,28 +25,28 @@ class Githuber(db.Model):
 
 class Repository(db.Model):
     # __tablename__ = "Repositories"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    repo = db.Column(db.String(80), nullable=True)
+    # id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    repo = db.Column(db.String(80), nullable=True, primary_key=True)
     used_lang = db.Column(db.String(10), nullable=True)
 
 class Star(db.Model):
     # __tablename__ = "Stars"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    repo_starred = db.Column(db.String(80), nullable=True)
+    # id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    repo_starred = db.Column(db.String(80), nullable=True, primary_key=True)
     used_lang_starred = db.Column(db.String(10), nullable=True)
 
 class Follower(db.Model):
     # __tablename__ = "Followers"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    followers_acc = db.Column(db.String(80), unique=False, nullable=False)
+    # id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    followers_acc = db.Column(db.String(80), unique=False, nullable=False, primary_key=True)
     followers_name = db.Column(db.String(80), unique=False, nullable=True)
     followers_bio = db.Column(db.String(120), unique=False, nullable=True)
     followers_location = db.Column(db.String(80), unique=False, nullable=True)
 
 class Following(db.Model):
     # __tablename__ = "Followings"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    following_acc = db.Column(db.String(80), unique=False, nullable=False)
+    # id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    following_acc = db.Column(db.String(80), unique=False, nullable=False, primary_key=True)
     following_name = db.Column(db.String(80), unique=False, nullable=True)
     following_bio = db.Column(db.String(120), unique=False, nullable=True)
     following_location = db.Column(db.String(80), unique=False, nullable=True)
