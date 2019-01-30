@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 path_dir = os.path.dirname(os.path.abspath(__file__))
 base_dir = os.path.dirname(path_dir)
-print(base_dir)
+# print(base_dir)
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+base_dir+'/database.db'
 db = SQLAlchemy(app)
@@ -13,9 +13,9 @@ from ScrappingGithub.scrapping import AutoScrapping
 
 
 class Githuber(db.Model):
-    __tablename__ = "User"
-    # id = db.Column(db.Integer, primary_key=True)
-    useracc = db.Column(db.String(80), unique=True, nullable=False, primary_key=True)
+    # __tablename__ = "Users"
+    id = db.Column(db.Integer, primary_key=True)
+    useracc = db.Column(db.String(80), unique=False, nullable=False)
     username = db.Column(db.String(80), unique=False, nullable=True)
     bio = db.Column(db.String(120), unique=False, nullable=True)
     location = db.Column(db.String(80), unique=False, nullable=True)
@@ -24,25 +24,29 @@ class Githuber(db.Model):
     #     return '<User %r>' % self.useracc
 
 class Repository(db.Model):
-    __tablename__ = "Repositories"
-    repo = db.Column(db.String(80), nullable=True, primary_key=True)
+    # __tablename__ = "Repositories"
+    id = db.Column(db.Integer, primary_key=True)
+    repo = db.Column(db.String(80), nullable=True)
     used_lang = db.Column(db.String(10), nullable=True)
 
 class Star(db.Model):
-    __tablename__ = "Stars"
-    repo_starred = db.Column(db.String(80), nullable=True, primary_key=True)
+    # __tablename__ = "Stars"
+    id = db.Column(db.Integer, primary_key=True)
+    repo_starred = db.Column(db.String(80), nullable=True)
     used_lang_starred = db.Column(db.String(10), nullable=True)
 
 class Follower(db.Model):
-    __tablename__ = "Followers"
-    followers_acc = db.Column(db.String(80), unique=True, nullable=False, primary_key=True)
+    # __tablename__ = "Followers"
+    id = db.Column(db.Integer, primary_key=True)
+    followers_acc = db.Column(db.String(80), unique=True, nullable=False)
     followers_name = db.Column(db.String(80), unique=False, nullable=True)
     followers_bio = db.Column(db.String(120), unique=False, nullable=True)
     followers_location = db.Column(db.String(80), unique=False, nullable=True)
 
 class Following(db.Model):
-    __tablename__ = "Followings"
-    following_acc = db.Column(db.String(80), unique=True, nullable=False, primary_key=True)
+    # __tablename__ = "Followings"
+    id = db.Column(db.Integer, primary_key=True)
+    following_acc = db.Column(db.String(80), unique=True, nullable=False)
     following_name = db.Column(db.String(80), unique=False, nullable=True)
     following_bio = db.Column(db.String(120), unique=False, nullable=True)
     following_location = db.Column(db.String(80), unique=False, nullable=True)
