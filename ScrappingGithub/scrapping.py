@@ -137,7 +137,7 @@ class AutoScrapping:
                      used_lang_star.append("Unknown")
       # print(repository_star, len(repository_star))
       # print(used_lang_star, len(used_lang_star))
-      return [repository_star, used_lang_star]
+      return repository_star, used_lang_star
 # try:
    
    def followerScrapping(self):
