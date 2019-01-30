@@ -1,12 +1,12 @@
-# from flask import Flask
-# from flask_sqlalchemy import SQLAlchemy
-# import os
-# path_dir = os.path.dirname(os.path.abspath(__file__))
-# base_dir = os.path.dirname(path_dir)
-# print(base_dir)
-# app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+base_dir+'/database.db'
-# db = SQLAlchemy(app)
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import os
+path_dir = os.path.dirname(os.path.abspath(__file__))
+base_dir = os.path.dirname(path_dir)
+print(base_dir)
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+base_dir+'/database.db'
+db = SQLAlchemy(app)
 
 # import module interne
 from ScrappingGithub.scrapping import AutoScrapping
