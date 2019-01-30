@@ -71,7 +71,7 @@ if __name__ == "__main__":
         follower_ = Follower(followers_acc=followers_acc[i], followers_name=followers_name[i], followers_bio=followers_bio[i], followers_location=followers_location[i])
         db.session.add(follower_)
 
-    # # following
+    # # # following
     for i in range(len(following_acc)):
         following_ = Following(following_name=following_name[i], following_acc=following_acc[i], following_bio=following_bio[i], following_location=following_location[i])
         db.session.add(following_)
