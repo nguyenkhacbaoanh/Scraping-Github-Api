@@ -75,7 +75,7 @@ def insert_data(url):
     following_name, following_acc, following_bio, following_location =  cp.followingScrapping()
 
     # create database
-    db.create_all()
+    # db.create_all()
 
     # insert in database
 
