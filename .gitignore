@@ -1,5 +1,6 @@
 .env
 /scrapping-env
+.vscode/
 
 /__pycache__
 *.db
