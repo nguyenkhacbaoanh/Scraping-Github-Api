@@ -9,9 +9,9 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///'+base_dir+'/databases.db'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+base_dir+'/database.db'
 # db = SQLAlchemy(app)
 
-from sqlalchemy import Boolean, Column, Integer, String, create_engine
+from sqlalchemy import Boolean, Column, Integer, String, ForeignKey, create_engine
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 
 # import module interne
 from ScrappingGithub.scrapping import AutoScrapping
@@ -38,45 +38,49 @@ class Githuber(Base):
     username = Column(String(80), unique=False, nullable=True)
     bio = Column(String(120), unique=False, nullable=True)
     location = Column(String(80), unique=False, nullable=True)
-    # repos = relationship('Repository', backref='githuber', lazy=True)
-    # stars = relationship('Star', backref='githuber', lazy=True)
-    # followers = relationship('Follower', backref='githuber', lazy=True)
-    # followings = relationship('Following', backref='githuber', lazy=True)
+    repos = relationship('Repository', backref='githuber', lazy=True)
+    stars = relationship('Star', backref='githuber', lazy=True)
+    followers = relationship('Follower', backref='githuber', lazy=True)
+    followings = relationship('Following', backref='githuber', lazy=True)
     # def __repr__(self):
     #     return '<User %r>' % self.useracc
 
 class Repository(Base):
     # __tablename__ = "Repositories"
     id = Column(Integer, primary_key=True, autoincrement=True)
+    useracc_id = Column(String(80), ForeignKey('githuber.useracc'))
     repo = Column(String(80), nullable=True)
     used_lang = Column(String(10), nullable=True)
-    user_acc = Column(String(80), nullable=False)
+    # user_acc = Column(String(80), nullable=False)
 
 
 class Star(Base):
     # __tablename__ = "Stars"
     id = Column(Integer, primary_key=True, autoincrement=True)
+    useracc_id = Column(String(80), ForeignKey('githuber.useracc'))
     repo_starred = Column(String(80), nullable=True)
     used_lang_starred = Column(String(10), nullable=True)
-    user_acc = Column(String(80), nullable=False)
+    # user_acc = Column(String(80), nullable=False)
 
 class Follower(Base):
     # __tablename__ = "Followers"
     id = Column(Integer, primary_key=True, autoincrement=True)
+    useracc_id = Column(String(80), ForeignKey('githuber.useracc'))
     followers_acc = Column(String(80), unique=False, nullable=False)
     followers_name = Column(String(80), unique=False, nullable=True)
     followers_bio = Column(String(120), unique=False, nullable=True)
     followers_location = Column(String(80), unique=False, nullable=True)
-    user_acc = Column(String(80), nullable=False)
+    # user_acc = Column(String(80), nullable=False)
 
 class Following(Base):
     # __tablename__ = "Followings"
     id = Column(Integer, primary_key=True, autoincrement=True)
+    useracc_id = Column(String(80), ForeignKey('githuber.useracc'))
     following_acc = Column(String(80), unique=False, nullable=False)
     following_name = Column(String(80), unique=False, nullable=True)
     following_bio = Column(String(120), unique=False, nullable=True)
     following_location = Column(String(80), unique=False, nullable=True)
-    user_acc = Column(String(80), nullable=False)
+    # user_acc = Column(String(80), nullable=False)
 
 def insert_data(url):
     # instancie
@@ -104,34 +108,49 @@ def insert_data(url):
 
     # infoPerson
     someone = Githuber(useracc=useracc, username=username, bio=bio, location=location)
-    db_session.add(someone)
-    db_session.commit()
+    # db_session.add(someone)
+    # db_session.commit()
     print("info done")
     # repo
+    repo_someone = []
     for i in range(len(repo)):
-        repo_someone = Repository(repo=repo[i], used_lang=used_lang[i],user_acc=useracc)
-        db_session.add(repo_someone)
-        db_session.commit()
+        repo_someone.append(Repository(repo=repo[i], used_lang=used_lang[i]))
+        # someone.repos.append(repo_someone)
+        # db_session.add(repo_someone)
+        # db_session.commit()
+    someone.repos.extend(repo_someone)
     print("repo done")
     # star
+    repo_starred_ = []
     for i in range(len(repo_starred)):
-        repo_starred_ = Star(repo_starred=repo_starred[i], used_lang_starred=used_lang_starred[i],user_acc=useracc)
-        db_session.add(repo_starred_)
-        db_session.commit()
+        repo_starred_.append(Star(repo_starred=repo_starred[i], used_lang_starred=used_lang_starred[i]))
+        # db_session.add(repo_starred_)
+        # db_session.commit()
+    someone.stars.extend(repo_starred_)
     print("star done")
     # follower
+    follower_ = []
     for i in range(len(followers_acc)):
-        follower_ = Follower(followers_name=followers_name[i], followers_acc=followers_acc[i], followers_bio=followers_bio[i], followers_location=followers_location[i],user_acc=useracc)
-        db_session.add(follower_)
-        db_session.commit()
+        follower_.append(Follower(followers_name=followers_name[i], followers_acc=followers_acc[i], followers_bio=followers_bio[i], followers_location=followers_location[i]))
+        # db_session.add(follower_)
+        # db_session.commit()
+    someone.followers.extend(follower_)
     print("follower done")
     # following
+    following_ = []
     for i in range(len(following_acc)):
-        following_ = Following(following_name=following_name[i], following_acc=following_acc[i], following_bio=following_bio[i], following_location=following_location[i],user_acc=useracc)
-        db_session.add(following_)
-        db_session.commit()
+        following_.append(Following(following_name=following_name[i], following_acc=following_acc[i], following_bio=following_bio[i], following_location=following_location[i]))
+        # db_session.add(following_)
+        # db_session.commit()
+    someone.followings.extend(following_)
     print("following done")
-    # session.commit()
+    
+    db_session.add(someone)
+    db_session.add_all(repo_starred_)
+    db_session.add_all(follower_)
+    db_session.add_all(repo_someone)
+    db_session.add_all(following_)
+    db_session.commit()
     db_session.close()
 
 if __name__ == "__main__":
