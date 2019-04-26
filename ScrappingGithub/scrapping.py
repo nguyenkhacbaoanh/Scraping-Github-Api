@@ -38,7 +38,10 @@ class AutoScrapping:
          full_name = soup.find("span",{"class":"p-name vcard-fullname d-block overflow-hidden"}).text
       except:
          full_name = "Unknown"
-      acc_name = soup.find("span",{"class":"p-nickname vcard-username d-block"}).text
+      try:
+         acc_name = soup.find("span",{"class":"p-nickname vcard-username d-block"}).text
+      except:
+         acc_name = "Unknown"
       try:
          bio = soup.find("div", {"class":"p-note user-profile-bio mb-3"}).find("div").text
       except:
@@ -293,7 +296,7 @@ class AutoScrapping:
 
 if __name__ == "__main__":
    # url pour crapper
-   url_scrapped = "https://github.com/supig"
+   url_scrapped = "https://github.com/nguyenkhacbaoanh"
    cp = AutoScrapping(url_scrapped)
    # print(cp.infoPerso())
    # print(cp.repoScrapping())

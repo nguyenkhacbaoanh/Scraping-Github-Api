@@ -1,8 +1,12 @@
 .env
 /scrapping-env
 .vscode/
+env/
 
-/__pycache__
+API/
+
+DataBase/__pycache__/
+__pycache__/
 *.db
 
 # flask env
