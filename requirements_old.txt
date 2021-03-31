@@ -12,7 +12,7 @@ get==2018.11.19
 idna==2.8
 itsdangerous==1.1.0
 Jinja2==2.10
-lxml==4.3.0
+lxml==4.6.3
 MarkupSafe==1.1.0
 post==2018.11.20
 public==2018.11.20
